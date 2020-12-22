@@ -1,9 +1,10 @@
-// Java implementation for JobSeeker 
+// Java implementation for a client 
+// Save file as Client.java 
 import java.io.*; 
 import java.net.*; 
 import java.util.Scanner; 
 
-// JobSeeker class 
+// Client class 
 public class JobSeeker 
 { 
 	public static void main(String[] args) throws IOException 
@@ -31,7 +32,7 @@ public class JobSeeker
 				String tosend = scn.nextLine(); 
 				dos.writeUTF(tosend); 
 				
-				// If JobSeeker sends exit,close this connection 
+				// If client sends exit,close this connection 
 				// and then break from the while loop 
 				if(tosend.equals("Exit")) 
 				{ 
@@ -111,6 +112,25 @@ public class JobSeeker
                                 tosend = " Job Done.";
                                 dos.writeUTF(tosend);
                                 break;
+                    case 5 :
+                    		break;
+                    case 6 :
+                    		String jobSeekerIp = (InetAddress.getLocalHost().getHostAddress()).trim();//JobSeeker IP address
+        					NetworkInterface jobSeekerNet = NetworkInterface.getByInetAddress(InetAddress.getLocalHost());
+        					//convert to hexadecimal MAC address string
+        					byte[] nAddr = jobSeekerNet.getHardwareAddress();
+        					String[] hex = new String[nAddr.length];
+        					for (int x = 0; x < nAddr.length; x++) {
+            				hex[x] = String.format("%02x", nAddr[x]);
+        					}
+        					String jobSeekerMac = String.join("-", hex);
+       
+        					System.out.println("All JobSeekers are on the same device, and therefore the same LAN, as the JobCreator.");
+        					System.out.println("The JobSeeker has IP Address " + jobSeekerIp + " aand MAC Address " + jobSeekerMac);
+        					//get subnet of seekerIp
+        					String subnet = jobSeekerIp.substring(0, jobSeekerIp.lastIndexOf("."));
+        					spyNbrs(subnet);//spy on neighbors
+    
 					default : 		
 
 							}
@@ -124,5 +144,13 @@ public class JobSeeker
 		}catch(Exception e){ 
 			e.printStackTrace(); 
 		} 
-	} 
+	}
+	public static void spyNbrs(String lan) throws IOException {
+        for (int i = 1; i < 255; i++) {
+            String hostIp = lan + "." + i;//get ip address
+            if (InetAddress.getByName(hostIp).isReachable(5000)) {
+                System.out.println("IP Address " + hostIp + " is a live host the same LAN as JobSeeker.");
+            }
+        }
+    } 
 } 

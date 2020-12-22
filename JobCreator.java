@@ -1,12 +1,13 @@
 // Java implementation of Server side 
-// It contains two classes : JobCreator and ClientHandler  
+// It contains two classes : Server and ClientHandler 
+// Save file as Server.java 
 
 import java.io.*; 
 import java.text.*; 
 import java.util.*; 
 import java.net.*; 
 
-// JobCreator class 
+// Server class 
 public class JobCreator 
 { 
 	public static void main(String[] args) throws IOException 
@@ -27,7 +28,7 @@ public class JobCreator
 				
 				System.out.println("A new client is connected : " + s); 
 				
-				// obtaining input and output streams 
+				// obtaining input and out streams 
 				DataInputStream dis = new DataInputStream(s.getInputStream()); 
 				DataOutputStream dos = new DataOutputStream(s.getOutputStream()); 
 				
@@ -101,7 +102,6 @@ class ClientHandler extends Thread
 					}
 				}
 
-				// Job Options
 				boolean isOnline;
 				int prt;
 				String b;
@@ -110,9 +110,12 @@ class ClientHandler extends Thread
         		System.out.println("2. Detect the status of the given port at the given IP address.");
         		System.out.println("3. Execute a TCP flood attack against the given port on the given IP.");
         		System.out.println("4. Execute a ICMP flood attack against the given IP.");
+        		System.out.println("5. Traceroute between JobSeeker and another node in the network.");
+                System.out.println("6. Find the nearest JobSeeker(s) to the target node.");
+                System.out.println("7. Report IP and MAC addresses of all live hosts connected to the same LAN as you.");
+                System.out.println("8. Find if JobSeeker is on the same LAN as JobCreator.");
         		int jobNum = scn.nextInt();
 
-        		//Assign Jobs
         		switch(jobNum){
         			case 1 :
                         System.out.println("Press 1 To Detect by IP address.\n 	2 To Detect by host name.");
@@ -167,6 +170,12 @@ class ClientHandler extends Thread
                     	System.out.println("Enter the ip address");
                     	b = scn.nextLine();
                     	dos.writeUTF(b);   
+                    	break;
+                    case 5 : 
+                    	break;
+                    case 6 : 
+                    	toreturn = "6. Spy on your neighbours, report the IP address and MAC address for every live host who shares the same LAN";
+                    	dos.writeUTF(toreturn);
                     	break;              
                     default : 
                     	break;
