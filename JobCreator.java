@@ -1,13 +1,9 @@
-// Java implementation of Server side 
-// It contains two classes : Server and ClientHandler 
-// Save file as Server.java 
-
 import java.io.*; 
 import java.text.*; 
 import java.util.*; 
 import java.net.*; 
 
-// Server class 
+// JobCreator class 
 public class JobCreator 
 { 
 	public static void main(String[] args) throws IOException 
@@ -76,10 +72,10 @@ class ClientHandler extends Thread
 			try { 
 				Scanner scn = new Scanner(System.in);
 
-				// Ask user what he wants 
+				// Ask JobSeeker what he wants 
 				dos.writeUTF("Type Job to get a Job Or Type Exit to terminate connection"); 
 				
-				// receive the answer from client 
+				// receive the answer from JobSeeker 
 				received = dis.readUTF(); 
 				
 				if(received.equals("Exit")) 
@@ -172,6 +168,14 @@ class ClientHandler extends Thread
                     	dos.writeUTF(b);   
                     	break;
                     case 5 : 
+                    	toreturn = "5. Traceroute between JobSeeker and another node in the network.";
+                    	dos.writeUTF(toreturn);
+                    	System.out.println("Enter the ip address");
+                    	b = scn.nextLine();
+                    	dos.writeUTF(b);
+                    	System.out.println("Enter the port");
+                    	prt = scn.nextInt();
+                    	dos.writeInt(prt);
                     	break;
                     case 6 : 
                     	toreturn = "6. Spy on your neighbours, report the IP address and MAC address for every live host who shares the same LAN";
